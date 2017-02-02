@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+
+    <title>Switches</title>
+    <style type="text/css">
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  align-items: center;
+  background-color: #ddd;
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  left: 0;
+  top: 0;
+  width: auto;
+  padding: 30px;
+}
+
+#switches {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 300px;
+  position: relative;
+}
+
+.switch .bg {
+  background-color: #aaa;
+  height: 20px;
+  border-radius: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.5s ease-in-out;
+  position: absolute;
+  width: 100%;
+}
+
+.switch.toggled .bg {
+  background-color: #ccc;
+}
+
+.switch {
+  background-color: #fff;
+  border-radius: 15px;
+  cursor: pointer;
+  position: relative;
+  transform: translate(0, 0);
+  width: 50px;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  margin: 12px;
+}
+
+label {
+  font-family: Helvetica;
+  margin-left: 12px;
+}
+
+.switch .button {
+  background-color: #ccc;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  height: 30px;
+  position: relative;
+  transition: all 0.5s ease-in-out;
+  width: 30px;
+}
+
+.switch.toggled .button {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.4);
+  transform: translateX(20px);
+  background-color: #66BB6A;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="switches">
+    </div>
+    <script>
+var inputs = [];
+
+function range(start, count) {
+  return Array.apply(0, Array(count))
+    .map(function (element, index) { 
+      return index + start;  
+  });
+}
+
+
+function toggle(a) {
+  inputs[a].className = "switch" + (inputs[a].className == "switch" ? " toggled" : "");
+
+  var allTrue = true;
+  for(var j = 0; j < inputs.length; j++) {
+    if(inputs[j].className == "switch")
+      allTrue = false;
+  }
+
+
+  if(allTrue) {
+    for(var j = 0; j < inputs.length; j++)
+      inputs[j].className = "switch";
+  }
+
+  if(inputs[a].className == "switch" || allTrue) {
+    var i;
+    if(allTrue)
+      i = a;
+    else
+      do {
+        i = Math.floor(Math.random()*inputs.length);
+      } while(inputs[i].className != "switch");
+    inputs[i].className = "switch toggled";
+  }
+}
+
+var num = 10;
+var rng = Math.floor(Math.random()*num);
+range(0, num).forEach(i => {
+  var div = document.createElement("div");
+  div.className = "switch" + (i == rng ? " toggled" : "");
+
+  div.name = i;
+  div.addEventListener('click', function(){toggle(i);});
+
+  var bg = document.createElement("div");
+  bg.className = "bg";
+  div.appendChild(bg);
+
+  var elem = document.createElement("div");
+  elem.className = "button";
+  div.appendChild(elem);
+  inputs.push(div);
+
+  var label = document.createElement("label");
+  label.for = i;
+  label.innerHTML = "Bug #" + (400+i);
+
+  var container = document.createElement("div");
+  container.className = "container";
+  container.appendChild(div);
+  container.appendChild(label);
+
+  switches.appendChild(container);
+});
+    </script>
+  </body>
+</html>
